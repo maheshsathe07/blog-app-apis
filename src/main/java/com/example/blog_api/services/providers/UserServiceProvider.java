@@ -4,6 +4,7 @@ import com.example.blog_api.exceptions.*;
 import com.example.blog_api.payloads.UserDto;
 import com.example.blog_api.repositories.*;
 import com.example.blog_api.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 public class UserServiceProvider implements UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ModelMapper modelMapper;
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = this.dtoToUser(userDto);
@@ -59,24 +62,28 @@ public class UserServiceProvider implements UserService {
     }
 
     private User dtoToUser(UserDto userDto){
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setAbout(userDto.getAbout());
+//        User user = new User();
+//        user.setId(userDto.getId());
+//        user.setName(userDto.getName());
+//        user.setEmail(userDto.getEmail());
+//        user.setPassword(userDto.getPassword());
+//        user.setAbout(userDto.getAbout());
 
+        // using ModelMapper to map one object to another
+        User user = this.modelMapper.map(userDto, User.class);
         return user;
     }
 
     private UserDto userToDto(User user){
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setAbout(user.getAbout());
+//        UserDto userDto = new UserDto();
+//        userDto.setId(user.getId());
+//        userDto.setName(user.getName());
+//        userDto.setEmail(user.getEmail());
+//        userDto.setPassword(user.getPassword());
+//        userDto.setAbout(user.getAbout());
 
+        // using ModelMapper to map one object to another
+        UserDto userDto = this.modelMapper.map(user, UserDto.class);
         return userDto;
     }
 }
